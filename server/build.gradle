@@ -1,0 +1,12 @@
+apply from: 'project.gradle'
+
+description = 'Code for an ML example on the Swim platform'
+ext.moduleName = 'swim.ml'
+mainClassName='swim.iris.IrisPlane'
+
+dependencies {
+  api group: 'org.swimos', name: 'swim-api', version: version
+  api group: 'org.swimos', name: 'swim-server', version: version
+  api group: 'org.swimos', name: 'swim-client', version: version
+  compile group: 'com.opencsv', name: 'opencsv', version:4.6
+}

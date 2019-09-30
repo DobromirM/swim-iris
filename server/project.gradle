@@ -1,0 +1,21 @@
+apply plugin: 'java-library'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+group = 'org.swimos'
+idea.module.outputDir file("out/production/classes")
+version = '3.10.0'
+repositories {
+  jcenter()
+}
+
+afterEvaluate {
+  compileJava {
+    options.compilerArgs = ['--module-path', classpath.asPath , '-Xlint:all']
+    classpath = files()
+    options.encoding = 'UTF-8'
+    source = sourceSets.main.allJava
+    sourceCompatibility = JavaVersion.VERSION_1_9
+    targetCompatibility = JavaVersion.VERSION_1_9
+  }
+}
