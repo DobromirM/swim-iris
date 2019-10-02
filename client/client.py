@@ -5,7 +5,7 @@ import re
 from utils.record import Record
 
 
-def create_downlink_message(node, lane, value=None):
+def create_downlink_message(node, lane):
     return f'@sync(node:"{node}",lane:{lane})'
 
 
@@ -20,10 +20,9 @@ def create_record(response):
         return record
 
 
-async def run():
-    uri = "ws://localhost:9001"
+async def open_downlink(uri, node, lane):
     async with websockets.connect(uri) as websocket:
-        message = create_downlink_message('/training/1', 'data')
+        message = create_downlink_message(node, lane)
         await websocket.send(message)
 
         while True:
@@ -36,4 +35,5 @@ async def run():
                 print(response)
 
 
-asyncio.get_event_loop().run_until_complete(run())
+async def run(uri, agents):
+    await asyncio.wait([open_downlink(uri, node, lane) for node, lane in agents])
