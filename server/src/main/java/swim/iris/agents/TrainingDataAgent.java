@@ -16,11 +16,8 @@ package swim.iris.agents;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBeanBuilder;
 import swim.api.SwimLane;
-import swim.api.lane.CommandLane;
 import swim.api.lane.ValueLane;
 import swim.iris.beans.TrainingRecord;
-import swim.recon.Recon;
-import swim.structure.Value;
 
 import java.util.Iterator;
 
@@ -53,12 +50,5 @@ public class TrainingDataAgent extends AbstractDataAgent<TrainingRecord> {
   void setData(TrainingRecord record) {
     this.data.set(record);
   }
-  
-  //TODO For testing with the Python client
-  @SwimLane("publish")
-  CommandLane<Value> publish = this.<Value>commandLane()
-          .onCommand((Value msg) -> {
-            System.out.println(Recon.toString(msg));
-          });
 }
 

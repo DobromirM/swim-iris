@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 public class TestingDataAgent extends AbstractDataAgent<TestingRecord> {
   
-  private final static String TESTING_FILES_PATH = "../data/train/iris_train_%s.csv";
+  private final static String TESTING_FILES_PATH = "../data/test/iris_test_%s.csv";
   private final static Integer INITIAL_DELAY = 5 * 60 * 1000;
   private final static Integer MIN_DELAY = 5 * 1000;
   private final static Integer MAX_DELAY = 60 * 1000;
