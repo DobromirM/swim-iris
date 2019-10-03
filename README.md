@@ -1,7 +1,7 @@
 # Swim-Iris
 ML example on the Iris dataset, using the Swim platform, to show how the system can be used for machine learning on real-time, streaming data
 
-[![Swim-ML-Example](data/swim-iris-ml.gif)]
+![Swim-ML-Example](data/swim-iris-ml.gif)
 
 
 ## Summary
