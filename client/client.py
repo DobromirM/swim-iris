@@ -30,6 +30,10 @@ def handle_training_record(record):
     if TRAINING_DATA.size % NUMBER_OF_SAMPLES_FOR_RETRAIN == 0:
         ML.fit(TRAINING_DATA.data)
         accuracy = ML.measure_accuracy(GROUND_TRUTH_DATA.data)
+
+        with open('output/accuracies.txt', 'a') as output_file:
+            output_file.write(f'{accuracy}\n')
+
         print(f'The accuracy of KNN is:{accuracy}')
 
 
@@ -41,6 +45,9 @@ def handle_testing_record(record):
             prediction = prediction[0]
 
             truth = GROUND_TRUTH_DATA.data.loc[record.index]['label'].astype(int)
+
+            with open('output/testing_results.txt', 'a') as output_file:
+                output_file.write(f'{1 if prediction == truth else 0}\n')
 
             print(f'Prediction for record {record.index} is: {IrisLabels.get_name(prediction)} (Truth: {IrisLabels.get_name(truth)})')
 
