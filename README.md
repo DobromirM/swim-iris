@@ -21,12 +21,12 @@ On every testing record received from the testing agents, it uses the trained mo
 ## Running the app
 
 #### Server (`/server`)
-Run the server: `./gradlew run`
+Run the server: `./gradlew run`<br>
 
 #### Client (`/client`)
-Install dependencies: `pip install -r requirements.txt`
-Run the client: `python main.py`
+Install dependencies: `pip install -r requirements.txt`<br>
+Run the client: `python main.py`<br>
 
 #### Visualisation (`/client`)
-Install dependencies: `pip install -r requirements.txt`
-Run visualisation: `python visualise.py`
+Install dependencies: `pip install -r requirements.txt`<br>
+Run visualisation: `python visualise.py`<br>
