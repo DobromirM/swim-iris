@@ -3,13 +3,13 @@ from swimai import SwimClient
 from ml.record import TrainingRecord, TestingRecord, handle_training_record, handle_testing_record
 
 
-def receive_training(new_value, old_value):
+async def receive_training(new_value, old_value):
     if new_value:
         print(f'Received new training record {new_value}')
         handle_training_record(new_value)
 
 
-def receive_testing(new_value, old_value):
+async def receive_testing(new_value, old_value):
     if new_value:
         print(f'Received new testing record {new_value}')
         handle_testing_record(new_value)
