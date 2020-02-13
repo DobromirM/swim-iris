@@ -3,24 +3,24 @@ package swim.iris.beans;
 import com.opencsv.bean.CsvBindByName;
 
 public class TestingRecord {
-  
+
   @CsvBindByName
   private Integer index;
-  
+
   @CsvBindByName
-  private Float sepalLength;
-  
+  private Float sepal_length;
+
   @CsvBindByName
-  private Float sepalWidth;
-  
+  private Float sepal_width;
+
   @CsvBindByName
-  private Float petalLength;
-  
+  private Float petal_length;
+
   @CsvBindByName
-  private Float petalWidth;
-  
+  private Float petal_width;
+
   @Override
   public String toString() {
-    return "TestingRecord{" + "index=" + index + ", sepalLength=" + sepalLength + ", sepalWidth=" + sepalWidth + ", petalLength=" + petalLength + ", petalWidth=" + petalWidth + '}';
+    return "TestingRecord{" + "index=" + index + ", sepal_length=" + sepal_length + ", sepal_width=" + sepal_width + ", petal_length=" + petal_length + ", petal_width=" + petal_width + '}';
   }
 }

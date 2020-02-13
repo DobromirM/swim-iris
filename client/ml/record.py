@@ -1,64 +1,80 @@
 import pandas as pd
+from globals import TRAINING_DATA, ML, GROUND_TRUTH_DATA
+from ml.utils import IrisLabels
 
-from ml.utils import convert_camel_to_snake
-from enum import Enum
-
-
-class RecordType(Enum):
-    TRAINING = 0
-    TESTING = 1
+NUMBER_OF_SAMPLES_FOR_RETRAIN = 5
 
 
-class Record:
+def handle_training_record(record):
+    TRAINING_DATA.add_data(record.as_data_frame())
 
-    def __init__(self, index=None, sepal_length=None, sepal_width=None, petal_length=None, petal_width=None, label=None):
-        self.index = index
-        self.sepal_length = sepal_length
-        self.sepal_width = sepal_width
-        self.petal_length = petal_length
-        self.petal_width = petal_width
-        self.label = label
+    if TRAINING_DATA.size % NUMBER_OF_SAMPLES_FOR_RETRAIN == 0:
+        ML.fit(TRAINING_DATA.data)
+        accuracy = ML.measure_accuracy(GROUND_TRUTH_DATA.data)
 
-    def create_from_string(self, string):
-        attributes = string.split(',')
+        with open('output/accuracies.txt', 'a') as output_file:
+            output_file.write(f'{accuracy}\n')
 
-        for attribute in attributes:
-            key, value = attribute.split(':')
-            key = convert_camel_to_snake(key)
-            setattr(self, key, value)
+        print(f'The accuracy of KNN is:{accuracy}')
 
-        self.normalise()
 
-    def normalise(self):
-        self.index = int(self.index)
-        self.sepal_length = float(self.sepal_length)
-        self.sepal_width = float(self.sepal_width)
-        self.petal_length = float(self.petal_length)
-        self.petal_width = float(self.petal_width)
+def handle_testing_record(record):
+    try:
+        prediction = ML.predict(record.as_data_frame())
 
-        if self.label:
-            self.label = int(self.label)
+        if len(prediction) == 1:
+            prediction = prediction[0]
 
-    @property
-    def type(self):
-        if self.label is None:
-            return RecordType.TESTING
-        else:
-            return RecordType.TRAINING
+            truth = GROUND_TRUTH_DATA.data.loc[record.index]['label'].astype(int)
 
-    def as_dict(self):
-        if self.type == RecordType.TESTING:
-            return {'sepal_length': self.sepal_length, 'sepal_width': self.sepal_width, 'petal_length': self.petal_length,
-                    'petal_width': self.petal_width}
-        else:
-            return {'sepal_length': self.sepal_length, 'sepal_width': self.sepal_width, 'petal_length': self.petal_length,
-                    'petal_width': self.petal_width, 'label': self.label}
+            with open('output/testing_results.txt', 'a') as output_file:
+                output_file.write(f'{1 if prediction == truth else 0}\n')
+
+            print(
+                f'Prediction for record {record.index} is: {IrisLabels.get_name(prediction)} (Truth: {IrisLabels.get_name(truth)})')
+
+    except Exception:
+        print('The model cannot predict yet, because it has not been trained.')
+
+
+class TrainingRecord:
+
+    def __init__(self, index=0, sepal_length=0, sepal_width=0, petal_length=0, petal_width=0,
+                 label=0):
+        self.index = int(index)
+        self.sepal_length = float(sepal_length)
+        self.sepal_width = float(sepal_width)
+        self.petal_length = float(petal_length)
+        self.petal_width = float(petal_width)
+        self.label = int(label)
 
     def as_data_frame(self):
-        return pd.DataFrame(self.as_dict(), index=[self.index])
+        dict_rep = {'sepal_length': self.sepal_length, 'sepal_width': self.sepal_width,
+                    'petal_length': self.petal_length,
+                    'petal_width': self.petal_width, 'label': self.label}
+
+        return pd.DataFrame(dict_rep, index=[self.index])
 
     def __str__(self):
-        if self.type == RecordType.TESTING:
-            return f'TestingRecord(index={self.index}, sepal_length={self.sepal_length}, sepal_width={self.sepal_width}, petal_length={self.petal_length}, petal_width={self.petal_width})'
-        else:
-            return f'TrainingRecord(index={self.index}, sepal_length={self.sepal_length}, sepal_width={self.sepal_width}, petal_length={self.petal_length}, petal_width={self.petal_width}, label={self.label})'
+        return f'TrainingRecord(index={self.index}, sepal_length={self.sepal_length}, sepal_width={self.sepal_width},' \
+               f' petal_length={self.petal_length}, petal_width={self.petal_width}, label={self.label})'
+
+
+class TestingRecord:
+    def __init__(self, index=0, sepal_length=0, sepal_width=0, petal_length=0, petal_width=0):
+        self.index = int(index)
+        self.sepal_length = float(sepal_length)
+        self.sepal_width = float(sepal_width)
+        self.petal_length = float(petal_length)
+        self.petal_width = float(petal_width)
+
+    def as_data_frame(self):
+        dict_rep = {'sepal_length': self.sepal_length, 'sepal_width': self.sepal_width,
+                    'petal_length': self.petal_length,
+                    'petal_width': self.petal_width}
+
+        return pd.DataFrame(dict_rep, index=[self.index])
+
+    def __str__(self):
+        return f'TestingRecord(index={self.index}, sepal_length={self.sepal_length}, sepal_width={self.sepal_width},' \
+               f' petal_length={self.petal_length}, petal_width={self.petal_width})'

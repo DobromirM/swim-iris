@@ -1,4 +1,4 @@
-index,sepalLength,sepalWidth,petalLength,petalWidth,label
+index,sepal_length,sepal_width,petal_length,petal_width,label
 65,6.7,3.1,4.4,1.4,1
 98,5.1,2.5,3.0,1.1,1
 72,6.3,2.5,4.9,1.5,1

@@ -2,4 +2,4 @@ sklearn
 asyncio
 matplotlib
 pandas
-websockets
+swimai
