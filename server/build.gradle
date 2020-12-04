@@ -8,5 +8,5 @@ dependencies {
   api group: 'org.swimos', name: 'swim-api', version: version
   api group: 'org.swimos', name: 'swim-server', version: version
   api group: 'org.swimos', name: 'swim-client', version: version
-  compile group: 'com.opencsv', name: 'opencsv', version:4.6
+  implementation group: 'com.opencsv', name: 'opencsv', version:4.6
 }

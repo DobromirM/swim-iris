@@ -12,7 +12,6 @@ repositories {
 afterEvaluate {
   compileJava {
     options.compilerArgs = ['--module-path', classpath.asPath , '-Xlint:all']
-    classpath = files()
     options.encoding = 'UTF-8'
     source = sourceSets.main.allJava
     sourceCompatibility = JavaVersion.VERSION_1_9
